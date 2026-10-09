@@ -9,6 +9,7 @@ $pageTitle = $pageTitle ?? 'Simple Blog';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= escape($pageTitle) ?> | Simple Blog</title>
     <link rel="stylesheet" href="/assets/style.css">
+    <script src="/assets/app.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -20,6 +21,7 @@ $pageTitle = $pageTitle ?? 'Simple Blog';
                 <a href="/posts/create.php">New post</a>
                 <a href="/admin/users.php">Manage users</a>
             <?php endif; ?>
+            <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">Dark mode</button>
             <?php if (isLoggedIn()): ?>
                 <span class="welcome">Hello, <?= escape((string) $_SESSION['username']) ?></span>
                 <form class="inline-form" action="/auth/logout.php" method="post">

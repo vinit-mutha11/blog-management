@@ -29,10 +29,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$stats = $pdo->query(
+    'SELECT
+        (SELECT COUNT(*) FROM users) AS user_count,
+        (SELECT COUNT(*) FROM posts) AS post_count,
+        (SELECT COUNT(*) FROM post_likes) AS like_count'
+)->fetch();
 $users = $pdo->query('SELECT id, username, email, role, created_at FROM users ORDER BY created_at DESC')->fetchAll();
 $pageTitle = 'Manage users';
 require __DIR__ . '/../includes/header.php';
 ?>
+<section class="admin-overview" aria-labelledby="admin-overview-title">
+    <p class="eyebrow">SITE ACTIVITY</p>
+    <h1 id="admin-overview-title">Admin overview</h1>
+    <div class="stats-grid">
+        <article class="stat-card"><span>Members</span><strong><?= (int) $stats['user_count'] ?></strong></article>
+        <article class="stat-card"><span>Published posts</span><strong><?= (int) $stats['post_count'] ?></strong></article>
+        <article class="stat-card"><span>Community likes</span><strong><?= (int) $stats['like_count'] ?></strong></article>
+    </div>
+</section>
 <h1>Manage users</h1>
 <?php if ($error !== ''): ?><div class="alert error"><?= escape($error) ?></div><?php endif; ?>
 <div class="table-wrap">

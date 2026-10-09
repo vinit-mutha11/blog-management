@@ -8,9 +8,12 @@ A beginner-friendly blog application built with procedural PHP and MySQL. Visito
 - User and admin roles
 - Post create, read, update, and delete (admins only for changes)
 - Search by post title or content
-- Five-post pagination that keeps the current search
+- Sort posts by newest or most liked
+- Signed-in users can like and unlike posts
+- Admin overview with member, post, and like counts
+- Five-post pagination that keeps the current search and sort
 - PDO prepared statements, server-side validation, CSRF tokens, and escaped output
-- Responsive layout using plain CSS
+- Responsive layout, persistent dark mode, and live post-editor character counts
 
 ## Technologies
 
@@ -34,8 +37,10 @@ Install PHP 8+ with the PDO MySQL extension enabled, and have a running MySQL se
    mysql -u root -p < database/schema.sql
    ```
 
-   Enter your MySQL password when prompted. The script creates and selects the `blog` database and creates the `users` and `posts` tables.
+   Enter your MySQL password when prompted. The script creates and selects the `blog` database and creates the `users`, `posts`, and `post_likes` tables.
 3. Open `config/database.php` and set `$dbUsername` and `$dbPassword` to your MySQL credentials. The host is `localhost` and the database is `blog`.
+
+If you already have the blog database, run `database/schema.sql` again to create the likes table. The script uses `CREATE TABLE IF NOT EXISTS`, so it preserves existing users and posts.
 
 ## Run the project
 
@@ -68,6 +73,7 @@ blog-management-system/
 ├── admin/
 │   └── users.php
 ├── assets/
+│   ├── app.js
 │   └── style.css
 ├── auth/
 │   ├── login.php
@@ -87,6 +93,7 @@ blog-management-system/
 │   ├── delete.php
 │   ├── edit.php
 │   ├── index.php
+│   ├── like.php
 │   └── view.php
 ├── .gitignore
 ├── index.php
@@ -129,5 +136,7 @@ After setting up the database and starting the server, check these behaviors in 
 3. As a regular user, confirm posts can be read but the admin pages and post editing pages are blocked.
 4. Promote the account to admin using the SQL setup above, then log out and back in.
 5. As admin, create a post, edit it, and delete it. Confirm the post list reflects each change.
-6. On the users page, change another account's role and confirm an admin cannot remove their own admin role.
-7. Submit an important form without its CSRF token (for example by removing the hidden field in browser developer tools); confirm the request is rejected.
+6. As a signed-in user, like and unlike a post from the list and its detail page; check that the count updates and the Most liked sort changes order.
+7. On the users page, confirm the overview counts, change another account's role, and confirm an admin cannot remove their own admin role.
+8. Toggle dark mode and reload the page; confirm the preference remains selected. Type in the post editor and confirm the character count updates.
+9. Submit an important form without its CSRF token (for example by removing the hidden field in browser developer tools); confirm the request is rejected.

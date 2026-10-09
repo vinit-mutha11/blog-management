@@ -46,7 +46,8 @@ require __DIR__ . '/../includes/header.php';
         <label for="title">Title</label>
         <input id="title" name="title" maxlength="200" required value="<?= escape($title) ?>">
         <label for="content">Content</label>
-        <textarea id="content" name="content" rows="12" required><?= escape($content) ?></textarea>
+        <textarea id="content" name="content" rows="12" required data-character-count><?= escape($content) ?></textarea>
+        <p class="field-hint" data-character-count-label aria-live="polite"></p>
         <button class="button" type="submit">Publish post</button>
         <a class="button button-secondary" href="/">Cancel</a>
     </form>

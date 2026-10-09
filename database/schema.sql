@@ -24,3 +24,17 @@ CREATE TABLE IF NOT EXISTS posts (
         FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS post_likes (
+    user_id INT UNSIGNED NOT NULL,
+    post_id INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, post_id),
+    INDEX idx_post_likes_post_id (post_id),
+    CONSTRAINT fk_post_likes_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_post_likes_post
+        FOREIGN KEY (post_id) REFERENCES posts(id)
+        ON DELETE CASCADE
+);
